@@ -5,7 +5,7 @@ into a Unity game.  Data gets persisted in a binary format which is very data ef
 
 You first start by creating your data you want to persist in a tab delimited format with new rows separated by new lines.  The most obvious choice for this is to use a spreadsheet program such as Microsoft Excel or Open Office, which can copy the data to the clipboard in the above format.
 
-The example below shows how you could copy your data from the spreadsheet program into use your system's clipboard (Mac/Windows).  You simply attach this script to an object, copy your data into the clipboard then start your unity app.  This will load the data and save it into a file.
+The example below shows how you could copy your data from the spreadsheet program into use your system's clipboard (Mac/Windows).  You simply attach this script to an object, copy your data into the clipboard then start your unity app.  This will load the data and save it into a file.  *The order of the columns in your clipboard data must match the order of the properties in your class with not gaps.*
 
     public class DataLoaderDummy : MonoBehaviour {
 
