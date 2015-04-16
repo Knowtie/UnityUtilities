@@ -1,9 +1,18 @@
-# Game Data IO
+The purpose of this utility class is to be able to initialize, then write and later read static data stored in data files into a Unity game/app or C# application (.Net or Mono).  
 
-The purpose of this utility is to be able to initialize, then write and later read static data stored in data files
-into a Unity game.  Data gets persisted in a binary format which is very data efficient for storage and reading data. And while no game data is impervious to tampering, data in a binary format is harder to manipulate by the casual gamer.
+Data gets persisted in a binary format; which is very data efficient for storage and reading data. While no game data is impervious to tampering, data in a binary format is harder to manipulate by the casual gamer.
 
-You first start by creating your data you want to persist in a tab delimited format with new rows separated by new lines.  The most obvious choice for this is to use a spreadsheet program such as Microsoft Excel or Open Office, which can copy the data to the clipboard in the above format.
+# Persisting Data
+
+The system provides two ways to initialize your data:
+
+1. Construct one or more object and store them in a List<T> then use GameDataIO.Persist() to save them.
+
+2. Construct a text format with rows and columns separated by TAB characters, and convert the string data to the format of your object type.  Data can be converted from any text source.  The example below uses EditorGUIUtility.systemCopyBuffer which is the Unity wrapper for the Windows or Mac clipboard.
+
+For "2", start by creating your data you want to persist.  The most obvious choice for this is to use a spreadsheet program such as Microsoft Excel or Open Office, which can copy the data to the clipboard in the above format.
+
+How **GameDataIO.ConvertText<>(...)** decides to transform your data is done by using Reflection to extract the properties of your class and a set of String to Object Converters.  These can be obtained via **GameDataIO.GetDefaultConverters()**, which you can then modify to support any kind of data format (see below):
 
 The example below shows how you could copy your data from the spreadsheet program into use your system's clipboard (Mac/Windows).  You simply attach this script to an object, copy your data into the clipboard then start your unity app.  This will load the data and save it into a file.  *The order of the columns in your clipboard data must match the order of the properties in your class with not gaps.*
 
@@ -24,10 +33,14 @@ The example below shows how you could copy your data from the spreadsheet progra
 
 "**GameDataIO.Persist(List,Filename)**" persists a List<T> structure to the named file.
 
+# Retreiving Data
+
 To get the same data back:
 
     List<GameElement> ELEMENTS = GameDataIO.Load<GameElement>(@"Z:\GameElements.dat");
     
+# Converters
+
 You can create your own dictionary of converters, or modify any default ones.  But for every property in your object needs to have all of it's data in a single tab delimited value in your conversion file.  For example, suppose you want to convert Vector3 data.  Inside the cell of your spreadsheet, you'd specify 3 numbers delimited by commas ... ==>1,2,3<== The default converters don't have a Vector3 converter, but this is how you could do it.
 
     var CONVERTERS = GameDataIO.GetDefaultConverters();
@@ -51,5 +64,7 @@ If you need to replace a converter, such as the one for DateTime or bool values,
     var CONVERTERS = GameDataIO.GetDefaultConverters();
     CONVERTERS[typeof(bool)] = ( STRING => STRING.ToUpper() == "ON" );
     
+# GameDataIO is not a database
+
 **Important Note** While you could use this system as a basic database, it doesn't have a mechanism for reading/writing individual data rows, so saving means writing out the entire table each time.  It's really designed for generally static data that needs to be loaded by your game/app.
 
