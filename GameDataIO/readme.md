@@ -4,7 +4,11 @@ The purpose of this utility class is to be able to initialize, then write and la
 
 Data gets persisted in a binary format; which is very data efficient for storage and reading data. While no game data is impervious to tampering, data in a binary format is harder to manipulate by the casual gamer.
 
+Data persistance is very simple.  It is provided in a List<> and serialized to a file.  A file is desearlized into a List<>.
+
 # Persisting Data
+
+Before you can save/load data, you must construct a class.  Only the properties of the class will be persisted and loaded.  The system provides no method to update your data if you decide to change your class definition later on.
 
 The system provides two ways to initialize your data:
 
