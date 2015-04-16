@@ -1,6 +1,6 @@
 # GameDataIO - Utility Class - Overview
 
-The purpose of this utility class is to be able to initialize, then write and later read static data stored in data files into a Unity game/app or C# application (.Net or Mono).  
+The purpose of this utility class is to be able to initialize, write and later read static data stored in data files into a Unity game/app or C# application (.Net or Mono).  
 
 Data gets persisted in a binary format; which is very data efficient for storage and reading data. While no game data is impervious to tampering, data in a binary format is harder to manipulate by the casual gamer.
 
@@ -47,7 +47,9 @@ To get the same data back:
     
 # Converters
 
-You can create your own dictionary of converters, or modify any default ones.  But for every property in your object needs to have all of it's data in a single tab delimited value in your conversion file.  For example, suppose you want to convert Vector3 data.  Inside the cell of your spreadsheet, you'd specify 3 numbers delimited by commas ... ==>1,2,3<== The default converters don't have a Vector3 converter, but this is how you could do it.
+Converters are used by **GameDataIO.ConvertText<>** to transform string data into an object of a specific type.
+
+You can create your own dictionary of converters or modify or add to the default ones.  For every property in your object needs to have all of it's data in a single tab delimited value in your conversion file.  For example, suppose you want to convert Vector3 data.  Inside the cell of your spreadsheet, you'd specify 3 numbers delimited by commas ... ==>1,2,3<== The default converters don't have a Vector3 converter, but this is how you could do it.
 
     var CONVERTERS = GameDataIO.GetDefaultConverters();
     CONVERTERS.Add(typeof(Vector3),delegate( string aString ) {
@@ -68,9 +70,10 @@ You can create your own dictionary of converters, or modify any default ones.  B
 If you need to replace a converter, such as the one for DateTime or bool values, you can say:
 
     var CONVERTERS = GameDataIO.GetDefaultConverters();
+    
     CONVERTERS[typeof(bool)] = ( STRING => STRING.ToUpper() == "ON" );
     
 # GameDataIO is not a database
 
-**Important Note** While you could use this system as a basic database, it doesn't have a mechanism for reading/writing individual data rows, so saving means writing out the entire table each time.  It's really designed for generally static data that needs to be loaded by your game/app.
+**Important Note** While you could use this system as a basic database, it doesn't have a mechanism for reading/writing individual data rows, so loading means reading the entire file and saving means writing out the entire list each time.  It's really designed for generally static data that is represented by lists and needs to be loaded entirely by your game/application.
 
