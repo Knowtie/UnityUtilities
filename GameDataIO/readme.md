@@ -1,6 +1,6 @@
 # GameDataIO - Utility Class - Overview
 
-The purpose of this utility class is to be able to initialize, write and later read static data stored in data files into a Unity game/app or C# application (.Net or Mono).  
+The purpose of this utility class is to be able to initialize, write and later read static data stored in data files into a Unity game/app or C# application (.Net or Mono).  It also contains a method for converting tab delimited data into object instances, and this is highly convenient for converting text-based spreadsheet data to objects and be persisted.
 
 Data gets persisted in a binary format; which is very data efficient for storage and reading data. While no game data is impervious to tampering, data in a binary format is harder to manipulate by the casual gamer.
 
