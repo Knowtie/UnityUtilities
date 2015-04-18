@@ -41,7 +41,9 @@ The example below shows how you could copy your data from the spreadsheet progra
 
 # Persisting AppData
 
-The class also has a PersistAppData<T>(...) method for saving data to Assets/AppData; this way data can be included in a distribution and always be found in an installation without additional distribution work.  This has the same parameters as Persist<T>() except that there is no path information in the filename.
+The class also has a PersistAppData<T>(...) method for saving data to Assets/AppData; this way data can be included in a distribution and always be found in an installation without additional distribution work.  This has the same parameters as Persist<T>() except that there is no path information in the filename:
+
+        GameDataIO.PersistAppData(ELEMENTS,"GameElements.dat");
 
 # Retreiving Data
 
