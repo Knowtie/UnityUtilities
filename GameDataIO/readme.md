@@ -39,11 +39,21 @@ The example below shows how you could copy your data from the spreadsheet progra
 
 "**GameDataIO.Persist(List,Filename)**" persists a List<T> structure to the named file.
 
+# Persisting AppData
+
+The class also has a PersistAppData<T>(...) method for saving data to Assets/AppData; this way data can be included in a distribution and always be found in an installation without additional distribution work.  This has the same parameters as Persist<T>() except that there is no path information in the filename.
+
 # Retreiving Data
 
 To get the same data back:
 
     List<GameElement> ELEMENTS = GameDataIO.Load<GameElement>(@"Z:\GameElements.dat");
+    
+# Retreving AppData
+
+To get the same data back that has been stored in Assets/AppData.  See Persisting AppData for more info:
+
+    List<GameElement> ELEMENTS = GameDataIO.LoadAppData<GameElement>("GameElements.dat");
     
 # Converters
 
