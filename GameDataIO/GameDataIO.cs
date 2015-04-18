@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 namespace Assets.Data.GameData {
 
@@ -30,6 +30,19 @@ namespace Assets.Data.GameData {
         }
 
         /// <summary>
+        /// Same as Persist except data is persisted to Assets/AppData and constructs 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="aData"></param>
+        /// <param name="aFilename"></param>
+        public static void PersistAppData<T>(List<T> aData, string aFilename) {
+            string DIRECTORY = Application.dataPath.Replace("/", "\\") + @"\AppData\";
+            if (! Directory.Exists(DIRECTORY))
+                Directory.CreateDirectory(DIRECTORY);
+            Persist<T>(aData, DIRECTORY + aFilename);
+        }
+
+        /// <summary>
         /// Loads a list of data from a file.
         /// </summary>
         /// <typeparam name="T">A struct or class that has been marked with [Serializable].</typeparam>
@@ -44,6 +57,23 @@ namespace Assets.Data.GameData {
             }
         }
         
+        /// <summary>
+        /// Same as load, except data is loaded from Assets/AppData
+        /// </summary>
+        /// <typeparam name="T">A struct or class that has been marked with [Serializable].</typeparam>
+        /// <param name="aFilename">Name of the file to load (must exist).</param>
+        /// <returns>A List of T.</returns>
+        public static List<T> LoadAppData<T>(string aFilename) {
+            string DIRECTORY = Application.dataPath.Replace("/", "\\") + @"\AppData\";
+            if (!Directory.Exists(DIRECTORY)) {
+                throw new ArgumentException("Assets/AppData doesn't exist");
+            }
+            if (!File.Exists(DIRECTORY+aFilename))
+                throw new ArgumentException(aFilename + " doesn't exist in Assets/AppData");
+
+            return Load<T>(Application.dataPath.Replace("/", "\\") + @"\AppData\" + aFilename);
+        }
+
         /// <summary>
         /// Tests to see if the type provided is serializable
         /// </summary>
