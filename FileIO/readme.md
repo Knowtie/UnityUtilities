@@ -51,9 +51,9 @@ How to persist a mesh to a file?
     private const int cTriangles = 2;
     private const int cUV = 3;
 
-    readonly ListFiler<Vector3> _Verticies = new ListFiler<Vector3>( FileUtility.WriteVector3 , FileUtility.ReadVector3);
-    readonly ListFiler<Vector2> _UV = new ListFiler<Vector2>( FileUtility.WriteVector2 , FileUtility.ReadVector2);
-    readonly ListFiler<int> _Triangles = new ListFiler<int>( FileUtility.WriteInt , FileUtility.ReadInt);
+    readonly ListFiler<Vector3> _Vector3 = new ListFiler<Vector3>( FileUtility.WriteVector3 , FileUtility.ReadVector3);
+    readonly ListFiler<Vector2> _Vector3 = new ListFiler<Vector2>( FileUtility.WriteVector2 , FileUtility.ReadVector2);
+    readonly ListFiler<int> _Int = new ListFiler<int>( FileUtility.WriteInt , FileUtility.ReadInt);
 
     /// <summary>
     /// Method for persisting a mesh in a binary format to a file.  Note: Does not close FileStreamIO, you have 
@@ -64,9 +64,9 @@ How to persist a mesh to a file?
     /// <param name="IO"></param>
     public void PersistMesh(Mesh aMesh, int aIndex, FileStreamIO IO) {
 
-        _Verticies.Persist(cVertices,aMesh.vertices.ToList(),IO);
-        _Triangles.Persist(cTriangles,aMesh.triangles.ToList(),IO);
-        _UV.Persist(cUV,aMesh.uv.ToList(),IO);
+        _Vector3.Persist(cVertices,aMesh.vertices.ToList(),IO);
+        _Int.Persist(cTriangles,aMesh.triangles.ToList(),IO);
+        _Vector2.Persist(cUV,aMesh.uv.ToList(),IO);
             
         IO.Write(cEndOfMesh, BitConverter.GetBytes);
 
@@ -80,13 +80,13 @@ How to persist a mesh to a file?
         while (TYPE != cEndOfMesh) {
             switch (TYPE) {
                 case cVertices:
-                    aMesh.vertices = _Verticies.Load(aIO).ToArray();
+                    aMesh.vertices = _Vector3.Load(aIO).ToArray();
                     break;
                 case cTriangles:
-                    aMesh.triangles = _Triangles.Load(aIO).ToArray();
+                    aMesh.triangles = _Integer.Load(aIO).ToArray();
                     break;
                 case cUV:
-                    aMesh.uv = _UV.Load(aIO).ToArray();
+                    aMesh.uv = _Vector2.Load(aIO).ToArray();
                     break;
             }
 
