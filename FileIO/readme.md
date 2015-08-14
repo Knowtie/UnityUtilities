@@ -1,6 +1,6 @@
-FileIO is a set of C# utility classes for persisting data into files.  Unlike GameDataIO which is limited to a serialized data of a single type, FileIO doesn't work with serializes.  It's intent is to create an uncoupled data storage mechanism that can handle any type you want.  It's format is extremely efficient as stores binary data in the files with no markup (unless you want it).
+FileIO is a set of C# utility classes for persisting data into files.  Unlike GameDataIO which is limited to a serialized data of a single type, FileIO doesn't work with serializes.  It's intent is to create an uncoupled data storage mechanism that can handle any type you want.  It's format is extremely efficient as stores binary data in the files with one 4 byte identifier and no other no markup (unless you want it).
 
-When this library was created, it was designed to store vertex, triangle and uv information for 4 Unity3D Meshes and restore them quickly.  The example below is how to implement one mesh.  The difference between 4 meshes and 1 is nothing more than a loop to store or retrieve 4 one after the other.
+When this library was created, it was designed to store vertex, triangle and uv information for 4 Unity3D Meshes and restore them quickly.  The example below is how to implement one mesh.  The difference between 4 meshes and 1 is nothing more than a loop to store or retrieve the four in a collection; one after the other.
 
 The the library comes with two different types of persistence mechanisms.  One for persisting List<T> and another for persisting a single object instance.  These are referred to as Filers; so there is a ListFiler for List<T> and a DataFiler for a single instance.  It's relatively easy to create others, and how to do this is described below.
 
@@ -40,6 +40,8 @@ Persister and Loader are two delegates that look like this:
 
     public delegate void Persister<in T>(FileStreamIO IO, T aData);
     public delegate T Loader<out T>(FileStreamIO IO);
+    
+To create your own Filer, you simply have to implement methods that implement Persister<T> and Loader<T>.
 	
 How to persist a mesh to a file?
 
